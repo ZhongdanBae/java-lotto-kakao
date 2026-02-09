@@ -6,6 +6,7 @@ public class Lotto {
     List<Integer> numbers;
 
     public Lotto(List<Integer> numbers){
+        if(numbers.size() != 6) throw new RuntimeException("로또 번호 개수가 6개가 아닙니다.");
         this.numbers = numbers;
     }
 
