@@ -26,4 +26,18 @@ public class TestVendor {
             assertThat(e.getMessage()).isEqualTo("천원 단위의 금액을 입력해주세요.");
         }
     }
+
+    @Test
+    void 양이_아닌_정수가_들어오면_에러를_반환한다(){
+        Integer money = 0;
+        Vendor vendor = new Vendor();
+
+        try{
+            vendor.sell(money);
+            fail();
+        }
+        catch (RuntimeException e){
+            assertThat(e.getMessage()).isEqualTo("금액은 0보다 커야 합니다");
+        }
+    }
 }
