@@ -25,4 +25,41 @@ public class TestStoreResult {
 		StoreResult store = new StoreResult();
 		assertThat(store.setBonus(input)).isEqualTo(answer);
 	}
+
+	@Test
+	void 당첨번호_입력은_6개여야_한다(){
+		try{
+			StoreResult storeResult = new StoreResult();
+			storeResult.setNumber("12, 13, 15, 17, 18, 29, 27");
+			fail();
+		}
+		catch(RuntimeException e){
+			assertThat(e.getMessage()).isEqualTo("당첨 번호는 6개의 숫자로 이루어져야 합니다");
+		}
+	}
+
+	@Test
+	void 당첨번호는_중복될_수_없다(){
+		try{
+			StoreResult storeResult = new StoreResult();
+			storeResult.setNumber("12, 13, 15, 17, 18, 18");
+			fail();
+		}
+		catch(RuntimeException e){
+			assertThat(e.getMessage()).isEqualTo("당첨 번호는 중복될 수 없습니다");
+		}
+	}
+
+	@Test
+	void 당첨번호는_1부터_45사이의_자연수여야_한다(){
+		try{
+			StoreResult storeResult = new StoreResult();
+			storeResult.setNumber("12, 13, 15, 17, 18, 50");
+			fail();
+		}
+		catch(RuntimeException e){
+			assertThat(e.getMessage()).isEqualTo("당첨 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.");
+		}
+	}
+
 }
