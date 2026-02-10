@@ -7,6 +7,7 @@ public class Buyers {
     Integer spentMoney = 0;
     LottoResult lottoResult;
     Result result;
+    Double profitRate = 0.0;
 
     public Buyers(){
         lottoResult = new LottoResult();
@@ -26,14 +27,18 @@ public class Buyers {
     }
 
     public Map<LottoRank, Integer> compare(){
-        if(result == null) return lottoResult.getResultCount();
+        lottoResult = new LottoResult();
+        if(result == null || spentMoney == 0){
+            profitRate = 0.0;
+            return lottoResult.getResultCount();
+        }
         for(Lotto lotto : lottos.getLottoList()) lottoResult.add(calculateRank(lotto));
+        profitRate = (double) lottoResult.calculateTotalPrize() / spentMoney;
         return lottoResult.getResultCount();
     }
 
-    public Map<LottoRank, Integer> compare(Result result){
-        setResult(result);
-        return compare();
+    public Double getProfitRate(){
+        return profitRate;
     }
 
     private LottoRank calculateRank(Lotto lotto){
@@ -44,9 +49,7 @@ public class Buyers {
 
     private int calculateMatchCount(Lotto lotto){
         int matchCount = 0;
-        for(Integer number : lotto.getNumbers()){
-            if(result.getNumbers().contains(number)) matchCount++;
-        }
+        for(Integer number : lotto.getNumbers()) matchCount += result.getNumbers().contains(number) ? 1 : 0;
         return matchCount;
     }
 

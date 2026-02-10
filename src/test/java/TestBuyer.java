@@ -27,4 +27,24 @@ public class TestBuyer {
 
         assertThat(buyers.compare().get(LottoRank.THIRD)).isEqualTo(1);
     }
+
+    @Test
+    void 등수별_당첨금_합으로_수익률을_계산한다() {
+
+        Lottos lottos = new Lottos();
+        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
+        lottos.add(lotto);
+
+        StoreResult result = new StoreResult();
+        result.setNumber("1, 2, 3, 4, 5, 10");
+        result.setBonus("7");
+
+        Buyers buyers = new Buyers();
+        buyers.setLottos(lottos);
+        buyers.setSpentMoney(12000);
+        buyers.setResult(result.getResult());
+        buyers.compare();
+
+        assertThat(buyers.getProfitRate()).isEqualTo(125.0);
+    }
 }
