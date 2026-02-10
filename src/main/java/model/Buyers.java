@@ -8,10 +8,19 @@ public class Buyers {
     LottoResult lottoResult;
     Result result;
     Double profitRate = 0.0;
+    Vendor vendor;
 
     public Buyers(){
         lottoResult = new LottoResult();
         lottos = new Lottos();
+        vendor = new Vendor();
+    }
+
+    public Lottos buyLotto(Integer money) {
+        Lottos returnedLottos = vendor.sell(money);
+        setLottos(returnedLottos);
+        setSpentMoney(money);
+        return lottos;
     }
 
     public void setLottos(Lottos lottos) {
