@@ -43,4 +43,15 @@ public class TestLotto {
         }
     }
 
+    @Test
+    void 로또_번호는_모두_1에서_45까지() {
+        List<Integer> numbers = List.of(1, 2, 3, 0, 4, 5);
+        try {
+            Lotto lotto = new Lotto(numbers);
+            fail();
+        }
+        catch (RuntimeException e){
+            assertThat(e.getMessage()).isEqualTo("로또 번호는 1~45까지의 숫자여야 한다.");
+        }
+    }
 }
