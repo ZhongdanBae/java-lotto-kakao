@@ -33,15 +33,19 @@ public class StoreResult {
 	}
 
 	public Integer setBonus(String input) {
-		bonus = Integer.parseInt(input);
-		return bonus;
+		try {
+			Integer parsedInt = Integer.parseInt(input);
+			if ( 0 >= parsedInt || parsedInt > 45 ) throw new RuntimeException("보너스 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.");
+			if (numbers.contains(parsedInt)) throw new RuntimeException("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
+			bonus = parsedInt;
+			return bonus;
+		}
+		catch (NumberFormatException e) {
+			throw new RuntimeException("보너스 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.");
+		}
 	}
 
 	public Integer size(){
 		return this.numbers.size();
-	}
-
-	public void validate(){
-
 	}
 }

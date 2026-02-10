@@ -62,4 +62,37 @@ public class TestStoreResult {
 		}
 	}
 
+	@Test
+	void 보너스_번호는_1부터_45사이의_자연수여야_한다() {
+		try {
+			StoreResult storeResult = new StoreResult();
+			storeResult.setBonus("0");
+			fail();
+		} catch (RuntimeException e) {
+			assertThat(e.getMessage()).isEqualTo("보너스 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.");
+		}
+	}
+
+	@Test
+	void 보너스_번호는_기존_당첨번호와_중복된_숫자로_설정될_수_없다() {
+		try {
+			StoreResult storeResult = new StoreResult();
+			storeResult.setNumber("1, 2, 3, 4, 5, 6");
+			storeResult.setBonus("3");
+			fail();
+		} catch (RuntimeException e) {
+			assertThat(e.getMessage()).isEqualTo("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
+		}
+	}
+
+	@Test
+	void 보너스_번호는_문자열로_표현된_숫자_하나이어야_한다() {
+		try {
+			StoreResult storeResult = new StoreResult();
+			storeResult.setBonus("ㅁ");
+			fail();
+		} catch (RuntimeException e) {
+			assertThat(e.getMessage()).isEqualTo("보너스 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.");
+		}
+	}
 }
