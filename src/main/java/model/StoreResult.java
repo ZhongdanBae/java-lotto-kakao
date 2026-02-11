@@ -5,8 +5,6 @@ import java.util.stream.Collectors;
 
 public class StoreResult {
 	private static final int LOTTO_NUMBER_COUNT = 6;
-	private static final int MIN_LOTTO_NUMBER = 1;
-	private static final int MAX_LOTTO_NUMBER = 45;
 
 	private final Result result;
 
@@ -22,29 +20,47 @@ public class StoreResult {
 
 		if(numbers.size() != LOTTO_NUMBER_COUNT) throw new RuntimeException("당첨 번호는 6개의 숫자로 이루어져야 합니다");
 
-		numbers.forEach(n -> Optional.of(n).filter(v -> (MIN_LOTTO_NUMBER <= v && v <= MAX_LOTTO_NUMBER)).orElseThrow(() -> new RuntimeException("당첨 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.")));
+		List<LottoNumber> lottoNumbers = numbers.stream()
+			.map(this::toWinningLottoNumber)
+			.collect(Collectors.toList());
 
-		Set<Integer> set = new HashSet<>();
-		numbers.stream()
+		Set<LottoNumber> set = new HashSet<>();
+		lottoNumbers.stream()
 				.filter(n -> !set.add(n))
 				.findFirst()
 				.ifPresent(n -> {
 					throw new IllegalArgumentException("당첨 번호는 중복될 수 없습니다");
 				});
 
-		result.setNumbers(numbers);
+		result.setNumbers(lottoNumbers.stream().map(LottoNumber::getValue).collect(Collectors.toList()));
 		return result.getNumbers();
 	}
 
 	public Integer setBonus(String input) {
 		try {
-			Integer parsedInt = Integer.parseInt(input);
-			if (parsedInt < MIN_LOTTO_NUMBER || parsedInt > MAX_LOTTO_NUMBER) throw new RuntimeException("보너스 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.");
-			if (result.getNumbers().contains(parsedInt)) throw new RuntimeException("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
-			result.setBonus(parsedInt);
+			LottoNumber bonus = toBonusLottoNumber(input);
+			if (result.getNumbers().contains(bonus.getValue())) throw new RuntimeException("보너스 번호는 당첨 번호와 중복될 수 없습니다.");
+			result.setBonus(bonus.getValue());
 			return result.getBonus();
 		}
 		catch (NumberFormatException e) {
+			throw new RuntimeException("보너스 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.");
+		}
+	}
+
+	private LottoNumber toWinningLottoNumber(Integer value) {
+		try {
+			return new LottoNumber(value);
+		} catch (RuntimeException e) {
+			throw new RuntimeException("당첨 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.");
+		}
+	}
+
+	private LottoNumber toBonusLottoNumber(String input) {
+		Integer parsedInt = Integer.parseInt(input);
+		try {
+			return new LottoNumber(parsedInt);
+		} catch (RuntimeException e) {
 			throw new RuntimeException("보너스 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.");
 		}
 	}
