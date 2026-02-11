@@ -1,6 +1,8 @@
 package model;
 
 public class Vendor {
+    private static final int LOTTO_PRICE_UNIT = 1000;
+    private static final int MIN_PURCHASE_MONEY = 1;
 
     private final AutoLottoGenerator autoLottoGenerator;
 
@@ -9,13 +11,13 @@ public class Vendor {
     }
 
     public Lottos sell(int money){
-        if (money%1000 > 0) throw new RuntimeException("천원 단위의 금액을 입력해주세요.");
-        if (money <= 0) throw new RuntimeException("금액은 0보다 커야 합니다");
+        if (money % LOTTO_PRICE_UNIT > 0) throw new RuntimeException("천원 단위의 금액을 입력해주세요.");
+        if (money < MIN_PURCHASE_MONEY) throw new RuntimeException("금액은 0보다 커야 합니다");
 
 
         Lottos lottos = new Lottos();
 
-        for(int i = 0; i < money/1000; i++){
+        for(int i = 0; i < money / LOTTO_PRICE_UNIT; i++){
             lottos.add(autoLottoGenerator.issueLotto());
         }
 
