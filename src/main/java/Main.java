@@ -1,32 +1,31 @@
-import java.util.Scanner;
-
 import model.Buyers;
 import model.Lottos;
 import model.StoreResult;
+import view.InputView;
+import view.OutputView;
 
 public class Main {
 	public static void main(String[] args) {
-
-		Scanner sc = new Scanner(System.in);
+		InputView inputView = new InputView();
+		OutputView outputView = new OutputView();
 		Buyers buyer = new Buyers();
 		try {
-			System.out.printf("구입금액을 입력해 주세요.");
-			if(!sc.hasNextLine()) return;
-			int money = Integer.parseInt(sc.nextLine().trim());
+			Integer money = inputView.readPurchaseMoney();
+			if(money == null) return;
 			Lottos lottos = buyer.buyLotto(money);
-			Lottos.printLottoTickets(lottos);
+			outputView.printLottoTickets(lottos);
 
-			System.out.printf("지난 주 당첨 번호를 입력해 주세요.");
-			if(!sc.hasNextLine()) return;
+			String winningNumbers = inputView.readWinningNumbers();
+			if(winningNumbers == null) return;
 			StoreResult store = new StoreResult();
-			store.setNumber(sc.nextLine());
+			store.setNumber(winningNumbers);
 
-			System.out.printf("보너스 볼을 입력해 주세요.");
-			if(!sc.hasNextLine()) return;
-			store.setBonus(sc.nextLine());
+			String bonusNumber = inputView.readBonusNumber();
+			if(bonusNumber == null) return;
+			store.setBonus(bonusNumber);
 
 			buyer.setResult(store.getResult());
-			buyer.compare();
+			outputView.printWinningStatistics(buyer.compare(), buyer.getProfitRate());
 		}
 		catch (RuntimeException e) {
 			System.out.println(e.getMessage());
