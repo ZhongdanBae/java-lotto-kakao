@@ -20,7 +20,7 @@ public class Buyers {
         Money purchaseMoney = new Money(money);
         Lottos returnedLottos = vendor.sell(purchaseMoney);
         setLottos(returnedLottos);
-        setSpentMoney(purchaseMoney);
+        addSpentMoney(purchaseMoney);
         return lottos;
     }
 
@@ -28,11 +28,11 @@ public class Buyers {
         this.lottos = lottos;
     }
 
-    public void setSpentMoney(Integer money){
-        setSpentMoney(new Money(money));
+    public void addSpentMoney(Integer money){
+        addSpentMoney(new Money(money));
     }
 
-    public void setSpentMoney(Money money){
+    public void addSpentMoney(Money money){
         this.spentMoney += money.getValue();
     }
 

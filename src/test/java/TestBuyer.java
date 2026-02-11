@@ -22,7 +22,7 @@ public class TestBuyer {
         Buyers buyers = new Buyers();
 
         buyers.setLottos(lottos);
-        buyers.setSpentMoney(12000);
+        buyers.addSpentMoney(12000);
         buyers.setResult(result.getResult());
 
         assertThat(buyers.compare().get(LottoRank.THIRD)).isEqualTo(1);
@@ -41,7 +41,7 @@ public class TestBuyer {
 
         Buyers buyers = new Buyers();
         buyers.setLottos(lottos);
-        buyers.setSpentMoney(12000);
+        buyers.addSpentMoney(12000);
         buyers.setResult(result.getResult());
         buyers.compare();
 
