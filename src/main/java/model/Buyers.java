@@ -3,12 +3,12 @@ package model;
 import java.util.Map;
 
 public class Buyers {
-    Lottos lottos;
-    Integer spentMoney = 0;
-    LottoResult lottoResult;
-    Result result;
-    Double profitRate = 0.0;
-    Vendor vendor;
+    private Lottos lottos;
+    private Integer spentMoney = 0;
+    private LottoResult lottoResult;
+    private Result result;
+    private Double profitRate = 0.0;
+    private final Vendor vendor;
 
     public Buyers(){
         lottoResult = new LottoResult();

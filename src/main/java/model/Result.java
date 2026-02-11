@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Result {
-	List<Integer> numbers;
-	Integer bonus;
+	private List<Integer> numbers;
+	private Integer bonus;
 
 	public Result() {
 		numbers = new ArrayList<>();

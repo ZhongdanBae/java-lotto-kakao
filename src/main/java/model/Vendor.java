@@ -2,7 +2,7 @@ package model;
 
 public class Vendor {
 
-    AutoLottoGenerator autoLottoGenerator;
+    private final AutoLottoGenerator autoLottoGenerator;
 
     public Vendor(){
         autoLottoGenerator = new AutoLottoGenerator();

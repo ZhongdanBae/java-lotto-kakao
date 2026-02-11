@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class StoreResult {
-	Result result;
+	private final Result result;
 
 	public StoreResult(){
 		result = new Result();
