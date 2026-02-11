@@ -39,4 +39,20 @@ public class TestLotto {
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("로또 번호는 1~45까지의 숫자여야 한다.");
     }
+
+    @Test
+    void 주어진_당첨번호와의_일치_개수를_계산한다() {
+        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
+        List<Integer> winningNumbers = List.of(1, 2, 3, 7, 8, 9);
+
+        assertThat(lotto.countMatches(winningNumbers)).isEqualTo(3);
+    }
+
+    @Test
+    void 보너스_번호_일치_여부를_판단한다() {
+        Lotto lotto = new Lotto(List.of(1, 2, 3, 4, 5, 6));
+
+        assertThat(lotto.hasBonusNumber(6)).isEqualTo(true);
+        assertThat(lotto.hasBonusNumber(7)).isEqualTo(false);
+    }
 }

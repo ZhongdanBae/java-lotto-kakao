@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Lottos {
@@ -15,7 +16,7 @@ public class Lottos {
     }
 
     public List<Lotto> getLottoList(){
-        return lottoList;
+        return Collections.unmodifiableList(lottoList);
     }
 
     public void add(Lotto lotto){

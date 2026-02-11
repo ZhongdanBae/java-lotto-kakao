@@ -56,14 +56,8 @@ public class Buyers {
     }
 
     private LottoRank calculateRank(Lotto lotto){
-        int matchCount = calculateMatchCount(lotto);
-        boolean matchBonus = lotto.getNumbers().contains(result.getBonus());
+        int matchCount = lotto.countMatches(result.getNumbers());
+        boolean matchBonus = lotto.hasBonusNumber(result.getBonus());
         return LottoRank.valueOf(matchCount, matchBonus);
-    }
-
-    private int calculateMatchCount(Lotto lotto){
-        int matchCount = 0;
-        for(Integer number : lotto.getNumbers()) matchCount += result.getNumbers().contains(number) ? 1 : 0;
-        return matchCount;
     }
 }

@@ -13,10 +13,7 @@ public class StoreResult {
 	}
 
 	public List<Integer> setNumber(String input) {
-		List<Integer> numbers = Arrays.stream(input.split(","))
-			.map(String::trim)
-			.map(Integer::parseInt)
-			.collect(Collectors.toList());
+		List<Integer> numbers = parseWinningNumbers(input);
 
 		if(numbers.size() != LOTTO_NUMBER_COUNT) throw new RuntimeException("당첨 번호는 6개의 숫자로 이루어져야 합니다");
 
@@ -34,6 +31,17 @@ public class StoreResult {
 
 		result.setNumbers(lottoNumbers.stream().map(LottoNumber::getValue).collect(Collectors.toList()));
 		return result.getNumbers();
+	}
+
+	private List<Integer> parseWinningNumbers(String input) {
+		try {
+			return Arrays.stream(input.split(","))
+					.map(String::trim)
+					.map(Integer::parseInt)
+					.collect(Collectors.toList());
+		} catch (NumberFormatException e) {
+			throw new RuntimeException("당첨 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.");
+		}
 	}
 
 	public Integer setBonus(String input) {

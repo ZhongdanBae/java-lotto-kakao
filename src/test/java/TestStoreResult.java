@@ -55,6 +55,15 @@ public class TestStoreResult {
 	}
 
 	@Test
+	void 당첨번호는_문자열이_아닌_숫자여야_한다(){
+		assertThatThrownBy(() -> {
+			StoreResult storeResult = new StoreResult();
+			storeResult.setNumber("12, 13, a, 17, 18, 20");
+		}).isInstanceOf(RuntimeException.class)
+			.hasMessage("당첨 번호는 1 ~ 45 사이의 양수로 이루어져야 합니다.");
+	}
+
+	@Test
 	void 보너스_번호는_1부터_45사이의_자연수여야_한다() {
 		assertThatThrownBy(() -> {
 			StoreResult storeResult = new StoreResult();

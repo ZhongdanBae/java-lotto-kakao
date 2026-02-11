@@ -12,7 +12,11 @@ public class InputView {
     public Integer readPurchaseMoney() {
         System.out.print("구입금액을 입력해 주세요.");
         if (!scanner.hasNextLine()) return null;
-        return Integer.parseInt(scanner.nextLine().trim());
+        try {
+            return Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("구입금액은 숫자여야 합니다.");
+        }
     }
 
     public String readWinningNumbers() {

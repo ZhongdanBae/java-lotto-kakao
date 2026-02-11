@@ -21,6 +21,28 @@ public class Lotto {
         return numbers.size();
     }
 
+    public int countMatches(List<Integer> winningNumbers) {
+        int matchCount = 0;
+        for (LottoNumber number : numbers) {
+            if (winningNumbers.contains(number.getValue())) {
+                matchCount++;
+            }
+        }
+        return matchCount;
+    }
+
+    public boolean hasBonusNumber(Integer bonusNumber) {
+        if (bonusNumber == null) {
+            return false;
+        }
+        for (LottoNumber number : numbers) {
+            if (number.getValue().equals(bonusNumber)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Integer> getNumbers(){
         return numbers.stream()
                 .map(LottoNumber::getValue)
