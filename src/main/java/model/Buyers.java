@@ -17,9 +17,10 @@ public class Buyers {
     }
 
     public Lottos buyLotto(Integer money) {
-        Lottos returnedLottos = vendor.sell(money);
+        Money purchaseMoney = new Money(money);
+        Lottos returnedLottos = vendor.sell(purchaseMoney);
         setLottos(returnedLottos);
-        setSpentMoney(money);
+        setSpentMoney(purchaseMoney);
         return lottos;
     }
 
@@ -28,7 +29,11 @@ public class Buyers {
     }
 
     public void setSpentMoney(Integer money){
-        this.spentMoney += money;
+        setSpentMoney(new Money(money));
+    }
+
+    public void setSpentMoney(Money money){
+        this.spentMoney += money.getValue();
     }
 
     public void setResult(Result result){
