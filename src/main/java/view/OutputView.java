@@ -7,6 +7,10 @@ import model.Lottos;
 import java.util.Map;
 
 public class OutputView {
+    public void printPurchaseSummary(int manualLottoCount, int autoLottoCount) {
+        System.out.println("수동으로 " + manualLottoCount + "장, 자동으로 " + autoLottoCount + "개를 구매했습니다.");
+    }
+
     public void printLottoTickets(Lottos lottos) {
         for (Lotto lotto : lottos.getLottoList()) {
             System.out.println(lotto.getNumbers());
