@@ -58,7 +58,7 @@ public class TestVendor {
         );
 
         assertThatThrownBy(() -> vendor.sell(new Money(2000), 3, manualLottoInputs))
-                .isInstanceOf(RuntimeException.class)
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("수동 로또 수는 전체 구매 수를 초과할 수 없습니다.");
     }
 
@@ -71,7 +71,7 @@ public class TestVendor {
         );
 
         assertThatThrownBy(() -> vendor.sell(new Money(4000), 3, manualLottoInputs))
-                .isInstanceOf(RuntimeException.class)
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("수동 로또 번호 입력 개수가 수동 구매 수와 다릅니다.");
     }
 
@@ -80,8 +80,53 @@ public class TestVendor {
         Vendor vendor = new Vendor();
 
         assertThatThrownBy(() -> vendor.sell(new Money(3000), 1, List.of("1, 2, 3, 4, 5")))
-                .isInstanceOf(RuntimeException.class)
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("수동 로또 번호는 6개의 숫자여야 합니다.");
+    }
+
+    @Test
+    void 수동_번호가_숫자가_아니면_예외를_반환한다() {
+        Vendor vendor = new Vendor();
+
+        assertThatThrownBy(() -> vendor.sell(new Money(3000), 1, List.of("1, 2, a, 4, 5, 6")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("수동 로또 번호는 숫자여야 합니다.");
+    }
+
+    @Test
+    void 수동_번호가_범위를_벗어나면_예외를_반환한다() {
+        Vendor vendor = new Vendor();
+
+        assertThatThrownBy(() -> vendor.sell(new Money(3000), 1, List.of("1, 2, 3, 4, 5, 46")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("수동 로또 번호는 1~45 사이의 숫자여야 합니다.");
+    }
+
+    @Test
+    void 수동_번호가_중복되면_예외를_반환한다() {
+        Vendor vendor = new Vendor();
+
+        assertThatThrownBy(() -> vendor.sell(new Money(3000), 1, List.of("1, 2, 3, 4, 5, 5")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("수동 로또 번호는 중복될 수 없습니다.");
+    }
+
+    @Test
+    void 수동_번호가_비어있으면_예외를_반환한다() {
+        Vendor vendor = new Vendor();
+
+        assertThatThrownBy(() -> vendor.sell(new Money(3000), 1, List.of("   ")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("수동 로또 번호는 비어 있을 수 없습니다.");
+    }
+
+    @Test
+    void 수동_구매_수가_음수면_예외를_반환한다() {
+        Vendor vendor = new Vendor();
+
+        assertThatThrownBy(() -> vendor.sell(new Money(3000), -1, List.of()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("수동 구매 수는 0 이상이어야 합니다.");
     }
 
 }
