@@ -26,7 +26,7 @@ public class Lotto {
     private static List<LottoNumber> toLottoNumbers(Integer... numbers) {
         validateCount(numbers.length);
         return Arrays.stream(numbers)
-                .map(LottoNumber::new)
+                .map(LottoNumber::of)
                 .collect(Collectors.toList());
     }
 

@@ -12,12 +12,12 @@ public class TestLotto {
     @Test
     void 로또_번호는_6개의_수로_이루어져야_한다() {
         Lotto lotto = new Lotto(List.of(
-                new LottoNumber(1),
-                new LottoNumber(2),
-                new LottoNumber(3),
-                new LottoNumber(4),
-                new LottoNumber(5),
-                new LottoNumber(6)
+                LottoNumber.of(1),
+                LottoNumber.of(2),
+                LottoNumber.of(3),
+                LottoNumber.of(4),
+                LottoNumber.of(5),
+                LottoNumber.of(6)
         ));
 
         assertThat(lotto.size()).isEqualTo(6);
@@ -26,12 +26,12 @@ public class TestLotto {
     @Test
     void 로또번호_값객체_가변인자로도_생성할_수_있다() {
         Lotto lotto = new Lotto(
-                new LottoNumber(1),
-                new LottoNumber(2),
-                new LottoNumber(3),
-                new LottoNumber(4),
-                new LottoNumber(5),
-                new LottoNumber(6)
+                LottoNumber.of(1),
+                LottoNumber.of(2),
+                LottoNumber.of(3),
+                LottoNumber.of(4),
+                LottoNumber.of(5),
+                LottoNumber.of(6)
         );
 
         assertThat(lotto.size()).isEqualTo(6);
