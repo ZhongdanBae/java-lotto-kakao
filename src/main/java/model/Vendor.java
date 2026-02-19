@@ -33,31 +33,21 @@ public class Vendor {
     }
 
     public Lottos sell(Money money){
-        Lottos lottos = new Lottos();
-
-        for(int i = 0; i < money.toLottoCount(); i++){
-            lottos.add(autoLottoGenerator.issueLotto());
-        }
-
-        return lottos;
+        LottosGenerator lottosGenerator = new AutoLottosGenerator(autoLottoGenerator, money.toLottoCount());
+        return lottosGenerator.generate();
     }
 
     public Lottos sell(Money money, Integer manualLottoCount, List<String> manualLottoInputs) {
         validateManualLottoCount(manualLottoCount, money.toLottoCount());
         validateManualInputCount(manualLottoInputs, manualLottoCount);
 
-        Lottos lottos = new Lottos();
-
-        for (String manualLottoInput : manualLottoInputs) {
-            lottos.add(new Lotto(parseManualLottoNumbers(manualLottoInput).toArray(new Integer[0])));
-        }
-
+        List<Lotto> manualLottos = parseManualLottos(manualLottoInputs);
         int autoLottoCount = money.toLottoCount() - manualLottoCount;
-        for (int i = 0; i < autoLottoCount; i++) {
-            lottos.add(autoLottoGenerator.issueLotto());
-        }
-
-        return lottos;
+        LottosGenerator lottosGenerator = new CompositeLottosGenerator(
+                new ManualLottosGenerator(manualLottos),
+                new AutoLottosGenerator(autoLottoGenerator, autoLottoCount)
+        );
+        return lottosGenerator.generate();
     }
 
     private void validateManualLottoCount(Integer manualLottoCount, Integer totalLottoCount) {
@@ -105,6 +95,13 @@ public class Vendor {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(NON_NUMERIC_MANUAL_NUMBER_MESSAGE);
         }
+    }
+
+    private List<Lotto> parseManualLottos(List<String> manualLottoInputs) {
+        return manualLottoInputs.stream()
+                .map(this::parseManualLottoNumbers)
+                .map(numbers -> new Lotto(numbers.toArray(new Integer[0])))
+                .collect(Collectors.toList());
     }
 
     private Integer parseManualNumber(String numberToken) {
