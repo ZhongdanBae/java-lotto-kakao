@@ -49,7 +49,7 @@ public class Vendor {
         Lottos lottos = new Lottos();
 
         for (String manualLottoInput : manualLottoInputs) {
-            lottos.add(new Lotto(parseManualLottoNumbers(manualLottoInput)));
+            lottos.add(new Lotto(parseManualLottoNumbers(manualLottoInput).toArray(new Integer[0])));
         }
 
         int autoLottoCount = money.toLottoCount() - manualLottoCount;
